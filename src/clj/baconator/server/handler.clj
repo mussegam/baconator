@@ -8,7 +8,9 @@
             [org.httpkit.client :as http]))
 
 (defroutes app-routes
-  (GET "/" [] "Hello world!")
+  (GET "/checkins" [] "Checkins")
+  (GET "/venues" [] "Venues")
+  (route/resources "/")
   (route/not-found "Not Found"))
 
 (def application

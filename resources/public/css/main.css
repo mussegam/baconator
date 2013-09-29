@@ -1,0 +1,10 @@
+#title {
+    font-size: 4em;
+    font-weight: bold;
+    color: #fc5605;
+}
+
+#map {
+    background: #a5a5a5;
+    height: 550px;
+}
