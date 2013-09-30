@@ -10,12 +10,10 @@
                  [compojure "1.1.5"]
                  [http-kit "2.1.10"]
                  [twitter-api "0.7.4"]
-                 [org.clojure/clojurescript "0.0-1859"]]
+                 [org.clojure/clojurescript "0.0-1859"]
+                 [domina "1.0.0"]]
   :plugins [[lein-cljsbuild "0.3.3"]
-            [lein-ring "0.8.7"]
-            [lein-midje "3.1.2"]]
-  :profiles {:dev {:dependencies [[midje "1.5.1"]
-                                  [ring-mock "0.1.5"]]}}
+            [lein-ring "0.8.7"]]
   :hooks [leiningen.cljsbuild]
   :source-paths ["src/clj"]
   :cljsbuild {
