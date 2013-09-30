@@ -2,9 +2,15 @@
     font-size: 4em;
     font-weight: bold;
     color: #fc5605;
+    display: inline-block;
 }
 
 #map {
     background: #a5a5a5;
     height: 550px;
+}
+
+.right {
+    display: inline-block;
+    margin-left: 1em;
 }
