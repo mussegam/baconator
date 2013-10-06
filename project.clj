@@ -24,4 +24,6 @@
                                          :optimizations :simple
                                          :pretty-print true}
                               :jar true}}}
+  :profiles {:uberjar {:main baconator.server.handler :aot :all}}
+  :aot :all
   :main baconator.server.handler)
