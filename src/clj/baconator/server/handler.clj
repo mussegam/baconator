@@ -64,8 +64,8 @@
 ;; Basic ring/compojure code
 
 (defroutes app-routes
+  (GET "/" [] (resource-response "index.html" {:root "public"}))
   (GET "/checkins" [] checkins)
-  (GET "/venues" [] "Venues")
   (route/resources "/")
   (route/not-found "Not Found"))
 
