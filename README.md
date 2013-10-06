@@ -2,7 +2,23 @@
 
 See all the bacon lovers around the world!
 
+Plots in a world map the tweets that mention the word bacon and have geoposition information.
+
+A basic Clojure web app using ring/compojure for the backend and Clojurescript for the client.
+
+A small sunday project that I tried (unsuccesfully) to present to ClojureCup2013.
+
 ## Usage
+
+To use twitter's Streaming API you need to register an app to obtain the API keys.
+Once you have them, create twitter.edn in config/ to store a map like:
+```
+{:consumer-key "BLABLABLA" 
+:consumer-secret "BLABLABLA"
+:token "BLABLABLA"
+:token-secret "BLABLABLA"}
+```
+Then run normally with:
 
 lein run
 
