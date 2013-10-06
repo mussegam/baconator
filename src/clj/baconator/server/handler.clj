@@ -1,4 +1,5 @@
 (ns baconator.server.handler
+  (:gen-class)
   (:use compojure.core
         ring.util.response
         org.httpkit.server
@@ -30,7 +31,6 @@
       (let [tweet (parse-string (str payload) true)
             lower (.toLowerCase (:text tweet))]
         (when (:coordinates tweet)
-          (println (:text tweet))
           (let [coordinates (:coordinates (:coordinates tweet))
                 user (:screen_name (:user tweet))]
             (send-checkin {:user user
@@ -42,9 +42,10 @@
    (fn [_resp excp]
       (.printStackTrace excp))))
 
-(api/statuses-filter :params {:track "bacon"}
+(defn track-word [word]
+  (api/statuses-filter :params {:track word}
                      :oauth-creds twitter-creds
-                     :callbacks *callback*)
+                     :callbacks *callback*))
 
 ;; Handle the checkins websocket
 
@@ -75,6 +76,5 @@
 
 (defn -main [& args]
   (let [port (Integer/parseInt (or (System/getenv "PORT") "8080"))]
-        (run-server application {:port port :join? false})))
-
-
+    (track-word "bacon")
+    (run-server application {:port port :join? false})))
