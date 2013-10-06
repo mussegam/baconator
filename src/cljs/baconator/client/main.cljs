@@ -23,7 +23,7 @@
 
 ;; Get bacon lovers
 
-(def ws-url "ws://localhost:8080/checkins")
+(def ws-url (str "ws://" js/window.location.host "/checkins"))
 (def ws (new js/WebSocket ws-url))
 (set! (.-onmessage ws) (fn [msg]
                          (let [raw (.-data msg)

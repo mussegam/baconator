@@ -3467,16 +3467,16 @@ cljs.core.with_meta = function with_meta(b, c) {
     c && (b ? (c = (c = b.cljs$lang$protocol_mask$partition0$ & 262144) ? c : b.cljs$core$IWithMeta$, c = c ? !0 : b.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.IWithMeta, b)) : c = cljs.core.type_satisfies_.call(null, cljs.core.IWithMeta, b), c = !c);
     return c
   }() ? with_meta.call(null, function() {
-    "undefined" === typeof cljs.core.t4622 && (cljs.core.t4622 = {}, cljs.core.t4622 = function(b, c, f, g) {
+    "undefined" === typeof cljs.core.t3984 && (cljs.core.t3984 = {}, cljs.core.t3984 = function(b, c, f, g) {
       this.meta = b;
       this.o = c;
       this.with_meta = f;
-      this.meta4623 = g;
+      this.meta3985 = g;
       this.cljs$lang$protocol_mask$partition1$ = 0;
       this.cljs$lang$protocol_mask$partition0$ = 393217
-    }, cljs.core.t4622.cljs$lang$type = !0, cljs.core.t4622.cljs$lang$ctorStr = "cljs.core/t4622", cljs.core.t4622.cljs$lang$ctorPrWriter = function(b, c, f) {
-      return cljs.core._write.call(null, c, "cljs.core/t4622")
-    }, cljs.core.t4622.prototype.call = function() {
+    }, cljs.core.t3984.cljs$lang$type = !0, cljs.core.t3984.cljs$lang$ctorStr = "cljs.core/t3984", cljs.core.t3984.cljs$lang$ctorPrWriter = function(b, c, f) {
+      return cljs.core._write.call(null, c, "cljs.core/t3984")
+    }, cljs.core.t3984.prototype.call = function() {
       var b = function(b, c) {
         return cljs.core.apply.call(null, b.o, c)
       }, c = function(c, e) {
@@ -3493,17 +3493,17 @@ cljs.core.with_meta = function with_meta(b, c) {
       };
       c.cljs$core$IFn$_invoke$arity$variadic = b;
       return c
-    }(), cljs.core.t4622.prototype.apply = function(b, c) {
+    }(), cljs.core.t3984.prototype.apply = function(b, c) {
       b = this;
       return b.call.apply(b, [b].concat(c.slice()))
-    }, cljs.core.t4622.prototype.cljs$core$Fn$ = !0, cljs.core.t4622.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
-      return this.meta4623
-    }, cljs.core.t4622.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, c) {
-      return new cljs.core.t4622(this.meta, this.o, this.with_meta, c)
-    }, cljs.core.__GT_t4622 = function(b, c, f, g) {
-      return new cljs.core.t4622(b, c, f, g)
+    }, cljs.core.t3984.prototype.cljs$core$Fn$ = !0, cljs.core.t3984.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
+      return this.meta3985
+    }, cljs.core.t3984.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, c) {
+      return new cljs.core.t3984(this.meta, this.o, this.with_meta, c)
+    }, cljs.core.__GT_t3984 = function(b, c, f, g) {
+      return new cljs.core.t3984(b, c, f, g)
     });
-    return new cljs.core.t4622(c, b, with_meta, null)
+    return new cljs.core.t3984(c, b, with_meta, null)
   }(), c) : cljs.core._with_meta.call(null, b, c)
 };
 cljs.core.meta = function(a) {
@@ -14173,7 +14173,7 @@ baconator.client.main.place_bacon = function(a, b) {
   cljs.core.reset_BANG_.call(null, baconator.client.main.vis_marker, c);
   return c.addTo(baconator.client.main.world_map)
 };
-baconator.client.main.ws_url = "ws://localhost:8080/checkins";
+baconator.client.main.ws_url = [cljs.core.str("ws://"), cljs.core.str(window.location.host), cljs.core.str("/checkins")].join("");
 baconator.client.main.ws = new WebSocket(baconator.client.main.ws_url);
 baconator.client.main.ws.onmessage = function(a) {
   a = cljs.reader.read_string.call(null, a.data);
