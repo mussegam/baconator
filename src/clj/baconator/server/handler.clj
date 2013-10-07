@@ -28,8 +28,7 @@
 (def ^:dynamic *callback*
   (AsyncStreamingCallback.
    (fn [_resp payload]
-      (let [tweet (parse-string (str payload) true)
-            lower (.toLowerCase (:text tweet))]
+      (let [tweet (parse-string (str payload) true)]
         (when (:coordinates tweet)
           (let [coordinates (:coordinates (:coordinates tweet))
                 user (:screen_name (:user tweet))]
