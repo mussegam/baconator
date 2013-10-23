@@ -25,17 +25,22 @@
                                            (:token twitter-config)
                                            (:token-secret twitter-config)))
 
-(def ^:dynamic *callback*
-  (AsyncStreamingCallback.
-   (fn [_resp payload]
-      (let [tweet (parse-string (str payload) true)]
-        (when (:coordinates tweet)
+(defn send-tweet-info [tweet]
+  (when (:coordinates tweet)
           (let [coordinates (:coordinates (:coordinates tweet))
                 user (:screen_name (:user tweet))]
             (send-checkin {:user user
                            :text (:text tweet)
                            :lat (nth coordinates 1)
-                           :lon (nth coordinates 0)})))))
+                           :lon (nth coordinates 0)}))))
+
+(def ^:dynamic *callback*
+  (AsyncStreamingCallback.
+   (fn [_resp payload]
+     (try
+       (let [tweet (parse-string (str payload) true)]
+         (send-tweet-info [tweet]))
+       (catch com.fasterxml.jackson.core.JsonParseException ex false)))
    (fn [_resp]
       (println "Error connecting to twitter streaming API"))
    (fn [_resp excp]
@@ -43,8 +48,8 @@
 
 (defn track-word [word]
   (api/statuses-filter :params {:track word}
-                     :oauth-creds twitter-creds
-                     :callbacks *callback*))
+                       :oauth-creds twitter-creds
+                       :callbacks *callback*))
 
 ;; Handle the checkins websocket
 
