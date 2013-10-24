@@ -78,9 +78,16 @@
   (route/resources "/")
   (route/not-found "Not Found"))
 
+(defn wrap-logging [handler]
+  (fn [req]
+    (let [resp (handler req)]
+      (info  (:remote-addr req) "==" (:request-method req) (:uri req) "=>" (:status resp))
+      resp)))
+
 (def application
   (->
    (handler/site app-routes)
+   (wrap-logging)
    reload/wrap-reload))
 
 (defn -main [& args]
