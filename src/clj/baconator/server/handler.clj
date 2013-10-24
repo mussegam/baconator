@@ -12,7 +12,9 @@
             [clojure.edn :as edn]
             [org.httpkit.client :as http]
             [twitter.oauth :as oauth]
-            [twitter.api.streaming :as api])
+            [twitter.api.streaming :as api]
+            [taoensso.timbre :as timbre
+                      :refer (trace debug info warn error fatal spy with-log-level)])
   (:import (twitter.callbacks.protocols AsyncStreamingCallback)))
 
 (declare send-checkin)
@@ -57,11 +59,14 @@
 
 (defn checkins [req]
   (with-channel req con
+    (info con "connected")
     (swap! checkins-clients assoc con true)
     (on-close con (fn [status]
-                     (swap! checkins-clients dissoc con)))))
+                    (info con "disconnected with status" status)
+                    (swap! checkins-clients dissoc con)))))
 
 (defn send-checkin [msg]
+  (info "Sending tweet to clients" (:text msg))
   (doseq [client @checkins-clients]
     (send! (key client) (pr-str msg) false)))
 
