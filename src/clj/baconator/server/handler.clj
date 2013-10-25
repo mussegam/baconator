@@ -28,20 +28,22 @@
                                            (:token-secret twitter-config)))
 
 (defn send-tweet-info [tweet]
-  (when (:coordinates tweet)
-          (let [coordinates (:coordinates (:coordinates tweet))
-                user (:screen_name (:user tweet))]
-            (send-checkin {:user user
-                           :text (:text tweet)
-                           :lat (nth coordinates 1)
-                           :lon (nth coordinates 0)}))))
+  (if-let [coordinates (:coordinates (:coordinates tweet))]
+    (send-checkin {:user (:screen_name (:user tweet))
+                   :text (:text tweet)
+                   :lat (nth coordinates 1)
+                   :lon (nth coordinates 0)})
+    (send-checkin {:user (:screen_name (:user tweet))
+                   :text (:text tweet)
+                   :lat nil
+                   :lon nil})))
 
 (def ^:dynamic *callback*
   (AsyncStreamingCallback.
    (fn [_resp payload]
      (try
        (let [tweet (parse-string (str payload) true)]
-         (send-tweet-info [tweet]))
+         (send-tweet-info tweet))
        (catch com.fasterxml.jackson.core.JsonParseException ex false)))
    (fn [_resp]
       (println "Error connecting to twitter streaming API"))
@@ -66,7 +68,7 @@
                     (swap! checkins-clients dissoc con)))))
 
 (defn send-checkin [msg]
-  (info "Sending tweet to clients" (:text msg))
+  (info "Sending tweet to clients")
   (doseq [client @checkins-clients]
     (send! (key client) (pr-str msg) false)))
 
