@@ -1,6 +1,7 @@
 (ns baconator.client.main
   (:require
-   [cljs.reader :as reader]))
+   [cljs.reader :as reader]
+   [goog.dom :as dom]))
 
 ;; Setting up the world map
 
@@ -21,6 +22,26 @@
 
 ;; Twitter users
 
+(defn log [& args]
+  (.log js/console (apply pr-str args)))
+
+(defn log-obj [obj]
+  (.log js/console obj))
+
+(defn get-element [id]
+  (dom/getElement (name id)))
+
+(defn create-li-tweet [name msg]
+  (let [li (dom/createElement "li")]
+    (doto li (dom/setTextContent (str name ":" msg)))))
+
+(defn show-tweet [name msg]
+  (let [node (get-element :tweetlist)
+        item (create-li-tweet name msg)]
+    (log-obj node)
+    (log-obj item)
+    (dom/insertChildAt node item 0)))
+
 ;; Get bacon lovers
 
 (def ws-url (str "ws://" js/window.location.host js/window.location.pathname "checkins"))
@@ -28,7 +49,9 @@
 (set! (.-onmessage ws) (fn [msg]
                          (let [raw (.-data msg)
                                data (reader/read-string raw)]
-                           (place-bacon (:lat data) (:lon data)))))
+                           (when (:lat data)
+                             (place-bacon (:lat data) (:lon data)))
+                           (show-tweet (:user data) (:text data)))))
 
 
 
