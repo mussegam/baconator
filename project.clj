@@ -1,4 +1,4 @@
-(defproject baconator "0.1.0-SNAPSHOT"
+(defproject baconator "0.2.0-SNAPSHOT"
   :description "See bacon lovers around the world"
   :url "http://baconator.clojurecup.com"
   :license {:name "Eclipse Public License"
