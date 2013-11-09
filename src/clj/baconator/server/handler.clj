@@ -68,7 +68,6 @@
                     (swap! checkins-clients dissoc con)))))
 
 (defn send-checkin [msg]
-  (info "Sending tweet to clients")
   (doseq [client @checkins-clients]
     (send! (key client) (pr-str msg) false)))
 
