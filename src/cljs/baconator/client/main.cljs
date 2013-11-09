@@ -20,7 +20,7 @@
     (reset! vis-marker marker)
     (.addTo marker world-map)))
 
-;; Twitter users
+;; Utils
 
 (defn log [& args]
   (.log js/console (apply pr-str args)))
@@ -31,16 +31,21 @@
 (defn get-element [id]
   (dom/getElement (name id)))
 
+;; Twitter users
+
 (defn create-li-tweet [name msg]
   (let [li (dom/createElement "li")]
-    (doto li (dom/setTextContent (str name ":" msg)))))
+    (doto li (dom/setTextContent (str name ": " msg)))))
 
 (defn show-tweet [name msg]
   (let [node (get-element :tweetlist)
-        item (create-li-tweet name msg)]
-    (log-obj node)
-    (log-obj item)
-    (dom/insertChildAt node item 0)))
+        item (create-li-tweet name msg)
+        childs (prim-seq (dom/getChildren node))
+        new-childs (conj (take 4 childs) item)]
+    (log (count new-childs))
+    (dom/removeChildren node)
+    (doseq [child new-childs]
+      (dom/appendChild node child))))
 
 ;; Get bacon lovers
 
