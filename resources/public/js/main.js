@@ -15344,21 +15344,37 @@ baconator.client.main.log_obj = function(a) {
 baconator.client.main.get_element = function(a) {
   return goog.dom.getElement(cljs.core.name.call(null, a))
 };
-baconator.client.main.create_li_tweet = function(a, b) {
-  var c = goog.dom.createElement("li");
-  goog.dom.setTextContent(c, [cljs.core.str(a), cljs.core.str(":"), cljs.core.str(b)].join(""));
-  return c
+baconator.client.main.create_li_tweet = function(a, b, c) {
+  var d = goog.dom.createElement("li");
+  cljs.core.truth_(c) && goog.dom.setProperties(d, {"class":"has-geo"});
+  goog.dom.setTextContent(d, [cljs.core.str(a), cljs.core.str(": "), cljs.core.str(goog.string.unescapeEntities(b))].join(""));
+  return d
 };
-baconator.client.main.show_tweet = function(a, b) {
-  var c = baconator.client.main.get_element.call(null, "\ufdd0:tweetlist"), d = baconator.client.main.create_li_tweet.call(null, a, b);
-  baconator.client.main.log_obj.call(null, c);
-  baconator.client.main.log_obj.call(null, d);
-  return goog.dom.insertChildAt(c, d, 0)
+baconator.client.main.show_tweet = function(a, b, c) {
+  var d = baconator.client.main.get_element.call(null, "\ufdd0:tweetlist");
+  a = baconator.client.main.create_li_tweet.call(null, a, b, c);
+  b = cljs.core.prim_seq.call(null, goog.dom.getChildren(d));
+  a = cljs.core.doall.call(null, cljs.core.conj.call(null, cljs.core.take.call(null, 4, b), a));
+  goog.dom.removeChildren(d);
+  a = cljs.core.seq.call(null, a);
+  b = null;
+  for(var e = 0, f = 0;;) {
+    if(f < e) {
+      c = cljs.core._nth.call(null, b, f), goog.dom.appendChild(d, c), f += 1
+    }else {
+      if(a = cljs.core.seq.call(null, a)) {
+        b = a, cljs.core.chunked_seq_QMARK_.call(null, b) ? (a = cljs.core.chunk_first.call(null, b), e = cljs.core.chunk_rest.call(null, b), b = a, c = cljs.core.count.call(null, a), a = e, e = c) : (c = cljs.core.first.call(null, b), goog.dom.appendChild(d, c), a = cljs.core.next.call(null, b), b = null, e = 0), f = 0
+      }else {
+        return null
+      }
+    }
+  }
 };
 baconator.client.main.ws_url = [cljs.core.str("ws://"), cljs.core.str(window.location.host), cljs.core.str(window.location.pathname), cljs.core.str("checkins")].join("");
 baconator.client.main.ws = new WebSocket(baconator.client.main.ws_url);
 baconator.client.main.ws.onmessage = function(a) {
   a = cljs.reader.read_string.call(null, a.data);
-  cljs.core.truth_((new cljs.core.Keyword("\ufdd0:lat")).call(null, a)) && baconator.client.main.place_bacon.call(null, (new cljs.core.Keyword("\ufdd0:lat")).call(null, a), (new cljs.core.Keyword("\ufdd0:lon")).call(null, a));
-  return baconator.client.main.show_tweet.call(null, (new cljs.core.Keyword("\ufdd0:user")).call(null, a), (new cljs.core.Keyword("\ufdd0:text")).call(null, a))
+  var b = null != (new cljs.core.Keyword("\ufdd0:lat")).call(null, a);
+  b && baconator.client.main.place_bacon.call(null, (new cljs.core.Keyword("\ufdd0:lat")).call(null, a), (new cljs.core.Keyword("\ufdd0:lon")).call(null, a));
+  return baconator.client.main.show_tweet.call(null, (new cljs.core.Keyword("\ufdd0:user")).call(null, a), (new cljs.core.Keyword("\ufdd0:text")).call(null, a), b)
 };
