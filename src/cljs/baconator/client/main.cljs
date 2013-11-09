@@ -1,7 +1,8 @@
 (ns baconator.client.main
   (:require
    [cljs.reader :as reader]
-   [goog.dom :as dom]))
+   [goog.dom :as dom]
+   [goog.string :as gstring]))
 
 ;; Setting up the world map
 
@@ -35,14 +36,13 @@
 
 (defn create-li-tweet [name msg]
   (let [li (dom/createElement "li")]
-    (doto li (dom/setTextContent (str name ": " msg)))))
+    (doto li (dom/setTextContent (str name ": " (gstring/unescapeEntities msg))))))
 
 (defn show-tweet [name msg]
   (let [node (get-element :tweetlist)
         item (create-li-tweet name msg)
         childs (prim-seq (dom/getChildren node))
         new-childs (conj (take 4 childs) item)]
-    (log (count new-childs))
     (dom/removeChildren node)
     (doseq [child new-childs]
       (dom/appendChild node child))))
