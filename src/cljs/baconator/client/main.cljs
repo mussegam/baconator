@@ -34,13 +34,15 @@
 
 ;; Twitter users
 
-(defn create-li-tweet [name msg]
+(defn create-li-tweet [name msg has-geo]
   (let [li (dom/createElement "li")]
+    (when has-geo
+      (dom/setProperties li (js-obj "class" "has-geo")))
     (doto li (dom/setTextContent (str name ": " (gstring/unescapeEntities msg))))))
 
-(defn show-tweet [name msg]
+(defn show-tweet [name msg has-geo]
   (let [node (get-element :tweetlist)
-        item (create-li-tweet name msg)
+        item (create-li-tweet name msg has-geo)
         childs (prim-seq (dom/getChildren node))
         new-childs (doall (conj (take 4 childs) item))]
     (dom/removeChildren node)
@@ -53,10 +55,11 @@
 (def ws (new js/WebSocket ws-url))
 (set! (.-onmessage ws) (fn [msg]
                          (let [raw (.-data msg)
-                               data (reader/read-string raw)]
-                           (when (:lat data)
+                               data (reader/read-string raw)
+                               has-geo (not (nil? (:lat data)))]
+                           (when has-geo
                              (place-bacon (:lat data) (:lon data)))
-                           (show-tweet (:user data) (:text data)))))
+                           (show-tweet (:user data) (:text data) has-geo))))
 
 
 
