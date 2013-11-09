@@ -42,7 +42,7 @@
   (let [node (get-element :tweetlist)
         item (create-li-tweet name msg)
         childs (prim-seq (dom/getChildren node))
-        new-childs (conj (take 4 childs) item)]
+        new-childs (doall (conj (take 4 childs) item))]
     (dom/removeChildren node)
     (doseq [child new-childs]
       (dom/appendChild node child))))
